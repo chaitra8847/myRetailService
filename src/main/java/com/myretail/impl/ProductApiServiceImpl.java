@@ -20,20 +20,26 @@ public class ProductApiServiceImpl extends ProductApiService {
     private static ProductApiService service = null;
 
     final static Logger logger = LogManager.getLogger(ProductApiServiceImpl.class);
-    DbConnection dbConnection = DbConnection.getInstance();
+    DbConnection dbConnection = new DbConnection() ;
 
+    ProductApiServiceImpl()
+    {
+        dbConnection.connectToAerospike();
+
+    }
     public static ProductApiService getInstance()
     {
+
         if (service == null)
             service = new ProductApiServiceImpl();
-
         return service;
     }
+
 
     @Override
     public ResponseEntity deleteProduct(String productId) throws NotFoundException {
 
-        boolean status = dbConnection.delete(productId);
+        boolean status = dbConnection.deleteProduct(productId);
         if(status)
             return new ResponseEntity(HttpStatus.OK);
 
@@ -92,7 +98,7 @@ public class ProductApiServiceImpl extends ProductApiService {
     public ResponseEntity putProduct(Product product, String productId) throws NotFoundException {
 
         Map<String, Object> stringObjectMap = Product.getValues(product);
-        boolean status = dbConnection.put(productId,stringObjectMap);
+        boolean status = dbConnection.putProduct(productId,stringObjectMap);
         if(status)
             return new ResponseEntity(HttpStatus.CREATED);
         logger.debug(String.format("Error Deleting Record for %s",productId));

@@ -6,7 +6,6 @@ import com.myretail.model.Product;
 import com.myretail.util.DbConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +15,7 @@ import java.util.Map;
 public class MyRetailApplication implements CommandLineRunner {
     final static Logger logger = LogManager.getLogger(ProductApiServiceImpl.class);
 
-    DbConnection dbf = DbConnection.getInstance();
+    public final static  DbConnection dbf = new DbConnection();
     public static void main(String[] args) {
         SpringApplication.run(MyRetailApplication.class, args);
     }
@@ -29,7 +28,7 @@ public class MyRetailApplication implements CommandLineRunner {
 
         Product product = new Product("1234","prod1",new Price(2.99,"INR"));
         Map<String, Object> stringObjectMap = Product.getValues(product);
-        dbf.put(product.getProductId(),stringObjectMap);
+        dbf.putProduct(product.getProductId(),stringObjectMap);
 
     }
 

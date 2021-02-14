@@ -7,7 +7,6 @@ import com.aerospike.client.Record;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.query.RecordSet;
 import com.aerospike.client.query.Statement;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myretail.impl.ProductApiServiceImpl;
 import com.myretail.model.Product;
 import org.apache.logging.log4j.LogManager;
@@ -21,31 +20,26 @@ public class DbConnection {
 
     final static Logger logger = LogManager.getLogger(ProductApiServiceImpl.class);
 
-    private static DbConnection dbConnection = null;
     AerospikeClient client ;
     WritePolicy policy;
     String namespace = "test";
     String setName = "myretailSet";
 
 
-    public DbConnection() {
-        client = new AerospikeClient("host.docker.internal", 3000);
-        policy = new WritePolicy(client.writePolicyDefault);
-        logger.info("DbConnection" + client.toString());
-
+    public boolean connectToAerospike() {
+        try {
+            client = new AerospikeClient("host.docker.internal", 3000);
+            policy = new WritePolicy(client.writePolicyDefault);
+            logger.info("DbConnection" + client.toString());
+            return true;
+        } catch (Exception aIn)
+        {
+            aIn.printStackTrace();
+            return false;
+        }
     }
 
-    public static DbConnection getInstance()
-    {
-        System.out.println("DbConnection");
-        if (dbConnection == null)
-            dbConnection = new DbConnection();
-
-        return dbConnection;
-    }
-
-
-    public boolean put(String key, Map<String, Object> aInValues)
+    public boolean putProduct(String key, Map<String, Object> aInValues)
     {
         try{
             Bin[] lBins = getBins(aInValues);
@@ -61,7 +55,7 @@ public class DbConnection {
 
     }
 
-    public boolean delete(String key)
+    public boolean deleteProduct(String key)
     {
         try{
             Key dBkey = new Key(namespace, setName, key);
