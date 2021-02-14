@@ -14,8 +14,8 @@ import java.util.Map;
 @SpringBootApplication
 public class MyRetailApplication implements CommandLineRunner {
     final static Logger logger = LogManager.getLogger(ProductApiServiceImpl.class);
+    public  DbConnection dbf;
 
-    public final static  DbConnection dbf = new DbConnection();
     public static void main(String[] args) {
         SpringApplication.run(MyRetailApplication.class, args);
     }
@@ -23,9 +23,10 @@ public class MyRetailApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        dbf = DbConnection.getInstance();
         //Initialize DB and add a product
         logger.info("MyRetailApplication Started");
-
+        dbf.connectToAerospike();
         Product product = new Product("1234","prod1",new Price(2.99,"INR"));
         Map<String, Object> stringObjectMap = Product.getValues(product);
         dbf.putProduct(product.getProductId(),stringObjectMap);

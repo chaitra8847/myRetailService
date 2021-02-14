@@ -20,10 +20,12 @@ public class ProductApiServiceImpl extends ProductApiService {
     private static ProductApiService service = null;
 
     final static Logger logger = LogManager.getLogger(ProductApiServiceImpl.class);
-    DbConnection dbConnection = new DbConnection() ;
+    DbConnection dbConnection ;
 
     ProductApiServiceImpl()
     {
+        dbConnection = DbConnection.getInstance();
+        logger.info("ProductApiServiceImpl");
         dbConnection.connectToAerospike();
 
     }

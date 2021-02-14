@@ -7,6 +7,7 @@ import com.aerospike.client.Record;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.query.RecordSet;
 import com.aerospike.client.query.Statement;
+import com.myretail.api.ProductApiService;
 import com.myretail.impl.ProductApiServiceImpl;
 import com.myretail.model.Product;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,16 @@ import java.util.Map;
 public class DbConnection {
 
     final static Logger logger = LogManager.getLogger(ProductApiServiceImpl.class);
+
+    private static DbConnection dbConnection = null;
+
+    public static DbConnection getInstance()
+    {
+
+        if (dbConnection == null)
+            dbConnection = new DbConnection();
+        return dbConnection;
+    }
 
     AerospikeClient client ;
     WritePolicy policy;
