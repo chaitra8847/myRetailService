@@ -1,5 +1,5 @@
 # myRetailService
-MyRetail Service using Springboot, Java ,Aerospike and Docker.
+MyRetail Service using Springboot, Java 8 ,Aerospike and Docker.
 
 # Prerequisites
 Needs Docker to be installed. 
