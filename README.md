@@ -13,13 +13,17 @@ Aerospike is used as its NoSQL key-value database that delivers ultra-fast runti
 # Running Application
 
 1) Start Aerospike.
+
  docker run -tid  --name aerospike -p 3000:3000 -p 3001:3001 -p 3002:3002 -p 3003:3003 aerospike/aerospike-server
 
 2) Build Application 
+
 gradle build clean
+
 docker build -t myretail:1.0.0 .
 
 3) Run Application 
+
 
 docker run -d --rm --name myretail-service  -p 8080:8080 myretail:1.2.0
 
