@@ -32,5 +32,6 @@ docker run -d --rm --name myretail-service  -p 8080:8080 myretail:1.2.0
 1) Integration Testing
 2) Swagger Documentation
 3) Security
+4) Performance Testing
 
 
